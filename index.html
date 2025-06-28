@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KiddoWorld - Fun & Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Baloo 2', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffeb3b, #ff5722);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-family: 'Comic Neue', cursive;
+            font-size: 28px;
+            color: #e91e63;
+            text-shadow: 2px 2px #fff176;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar ul li {
+            margin-left: 25px;
+        }
+
+        .navbar ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .navbar ul li a:hover {
+            color: #2196f3;
+            transform: scale(1.1);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 72px;
+            color: #e91e63;
+            text-shadow: 3px 3px #fff176, -3px -3px #03a9f4;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: #333;
+            max-width: 600px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 15px;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            font-size: 20px;
+            font-family: 'Comic Neue', cursive;
+            color: #fff;
+            background: #2196f3;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #ff5722;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 18px;
+                padding: 10px;
+            }
+            .navbar {
+                padding: 15px;
+            }
+            .navbar ul {
+                display: none;
+            }
+            .navbar .logo {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">KiddoWorld</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#stories">Stories</a></li>
+            <li><a href="#fun">Fun Zone</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <canvas class="background-shapes"></canvas>
+        <h1>Welcome to KiddoWorld!</h1>
+        <p>Join the fun with games, stories, and adventures made just for kids!</p>
+        <button class="cta-button">Start the Fun!</button>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+    <script>
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.parent('hero');
+            background(0, 0);
+        }
+
+        function draw() {
+            clear();
+            noStroke();
+            for (let i = 0; i < 10; i++) {
+                fill(random(255), random(255), random(255), 100);
+                let x = random(width);
+                let y = random(height);
+                let size = random(50, 150);
+                beginShape();
+                for (let a = 0; a < TWO_PI; a += 0.1) {
+                    let r = size * (0.8 + 0.2 * noise(x * 0.01, y * 0.01, frameCount * 0.02));
+                    vertex(x + r * cos(a), y + r * sin(a));
+                }
+                endShape(CLOSE);
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+</html>
